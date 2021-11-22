@@ -1,3 +1,5 @@
+mongo
+
 show dbs
 
 use assignment
