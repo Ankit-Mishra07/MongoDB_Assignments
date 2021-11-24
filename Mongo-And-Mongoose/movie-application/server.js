@@ -20,7 +20,21 @@ const userSchema = new mongoose.Schema({
     budget: Number
 })
 
+
+
+
+//mongoose.model(collection name, schema name)
+//db.users.dropIndex("your_index_name_here")  is this command to remove index
+
+
 const Movie = mongoose.model("movies", userSchema)
+
+app.get("/movies" ,async (req, res) => {
+    const user = await Movie.find().lean().exec();
+    console.log(user)
+    res.status(200).json({data: user})
+})
+
 
 const start = async () => {
     await connect()
