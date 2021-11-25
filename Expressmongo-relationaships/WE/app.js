@@ -269,13 +269,91 @@ app.get("/posts", async (req, res) => {
     }
 })
 
+app.get("/posts/:id", async (req, res) => {
+    try{
+        const post = await Post.findById(req.params.id).lean().exec()
+        res.status(201).send(post)
+    }catch(e) {
+        return res.status(500).json({message: e.message, status: "Failed"})
+    }
+})
+
+app.patch("/posts/:id", async (req, res) => {
+    try{
+        const post = await Post.findByIdAndUpdate(req.params.id, req.body, {
+            new: true
+        }).lean().exec()
+        return res.status(201).send(post)
+    }catch(e) {
+        return res.status(500).json({message: e.message, status: "Failed"})
+    }
+})
 
 
 
+app.delete("/posts/:id", async (req, res) => {
+    try{
+        const post = await Post.findByIdAndDelete(req.params.id).lean().exec()
+        return res.status(201).send(post)
+    }catch(e) {
+        return res.status(500).json({message: e.message, status: "Failed"})
+    }
+})
 
 
+//COMMENTS CRUD ------------------->
+
+app.post("/comments/:id", async (req, res) => {
+    try{
+
+        const comment = await Comment.create(req.body).lean().exec()
+        return res.status(201).send(comment)
+
+    }catch(e) {
+        return res.status(500).json({message: e.message, status: "Failed"})
+    }
+})
+
+app.get("/comments", async (req, res) => {
+    try{
+        const comment = await Comment.find().lean().exec()
+        return res.status(201).send(comment)
+
+    }catch(e) {
+        return res.status(500).json({message: e.message, status: "Failed"})
+    }
+})
+
+app.get("/comments/:id", async (req, res) => {
+    try{
+        const comment = await Comment.findById(req.params.id).lean().exec()
+        res.status(201).send(comment)
+    }catch(e) {
+        return res.status(500).json({message: e.message, status: "Failed"})
+    }
+})
+
+app.patch("/comments/:id", async (req, res) => {
+    try{
+        const comment = await Comment.findByIdAndUpdate(req.params.id, req.body, {
+            new: true
+        }).lean().exec()
+        res.status(201).send(comment)
+    }catch(e) {
+        return res.status(500).json({message: e.message, status: "Failed"})
+    }
+})
+app.delete("/comments/:id", async (req, res) => {
+    try{
+
+        const comment = await Comment.findByIdAndDelete(req.params.id).lean().exec()
+    return res.status(201).send(comment)
 
 
+    }catch(e) {
+        return res.status(500).json({message: e.message, status: "Failed"})
+    }
+})
 
 
 
