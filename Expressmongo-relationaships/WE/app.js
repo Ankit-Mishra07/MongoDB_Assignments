@@ -261,7 +261,7 @@ app.post("/posts" , async (req , res) => {
 app.get("/posts", async (req, res) => {
     try{
 
-        const post = await Post.find().populate({path: "user_id", select: "first_name"}).lean().exec()
+        const post = await Post.find().populate({path: "user_id", select: "first_name"}).populate({path: "tag_ids", select: "name"}).lean().exec()
         return res.status(201).send(post)
 
     }catch(e) {
@@ -271,7 +271,7 @@ app.get("/posts", async (req, res) => {
 
 app.get("/posts/:id", async (req, res) => {
     try{
-        const post = await Post.findById(req.params.id).lean().exec()
+        const post = await Post.findById(req.params.id).populate({path: "user_id", select: "first_name"}).populate({path: "tag_ids", select: "name"}).lean().exec()
         res.status(201).send(post)
     }catch(e) {
         return res.status(500).json({message: e.message, status: "Failed"})
@@ -303,10 +303,10 @@ app.delete("/posts/:id", async (req, res) => {
 
 //COMMENTS CRUD ------------------->
 
-app.post("/comments/:id", async (req, res) => {
+app.post("/comments", async (req, res) => {
     try{
 
-        const comment = await Comment.create(req.body).lean().exec()
+        const comment = await Comment.create(req.body)
         return res.status(201).send(comment)
 
     }catch(e) {
@@ -326,7 +326,7 @@ app.get("/comments", async (req, res) => {
 
 app.get("/comments/:id", async (req, res) => {
     try{
-        const comment = await Comment.findById(req.params.id).lean().exec()
+        const comment = await Comment.findById(req.params.id).populate({path: "user_id", select: "first_name"}).lean().exec()
         res.status(201).send(comment)
     }catch(e) {
         return res.status(500).json({message: e.message, status: "Failed"})
