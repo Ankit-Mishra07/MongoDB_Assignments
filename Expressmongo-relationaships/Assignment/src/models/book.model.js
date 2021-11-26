@@ -14,4 +14,11 @@ const bookSchema = mongoose.Schema({
         required: "true"
     }
 
-})
+},
+    {
+        versionKey: false,
+        timestamps: true
+    }
+)
+
+module.exports = mongoose.model("book", bookSchema)
