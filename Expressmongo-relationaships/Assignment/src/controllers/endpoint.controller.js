@@ -46,20 +46,7 @@ router.get("/section/:id/booksnot", async(req, res) => {
 
         const section = await Section.findById(req.params.id).lean().exec()
         const books  = await Book.find({section_id: section._id}).lean().exec()
-        const notchecked = await Checkout.find({book_id : books._id})
-        res.send({notchecked})
-
-    }catch(e){
-        return res.status(500).json({message: e.message, status: "Failed"})
-    }
-})
-
-router.get("/author/:id/section", async(req, res) => {
-    try{
-
-        const author = await Author.findById(req.params.id).lean().exec()
-        const books  = await Book.find({section_id: section._id}).lean().exec()
-        const notchecked = await Checkout.find({book_id : books._id})
+        const notchecked = await books.filter((boo)=> {boo._id == (Checkout.find()).book_id})
         res.send({notchecked})
 
     }catch(e){
