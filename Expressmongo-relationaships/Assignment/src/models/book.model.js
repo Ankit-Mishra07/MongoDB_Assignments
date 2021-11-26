@@ -8,11 +8,11 @@ const bookSchema = mongoose.Schema({
         ref: "section",
         required: "true"
     },
-    author_id: {
+    author_id: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "author",
         required: "true"
-    }
+    }]
 
 },
     {

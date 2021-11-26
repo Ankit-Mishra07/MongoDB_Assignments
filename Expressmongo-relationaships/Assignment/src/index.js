@@ -11,3 +11,9 @@ const sectionController = require("./controllers/sections.controller")
 const authorController = require("./controllers/authors.controller")
 const bookController = require("./controllers/books.controller")
 const checkoutController = require("./controllers/checkouts.controller")
+
+app.use("/sections", sectionController)
+app.use("/authors", authorController)
+app.use("/books", bookController)
+app.use("/checkouts", checkoutController)   
+
