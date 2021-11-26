@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const Book = require("../models/book.model")
-
+const Checkout = require("../models/checkout.model")
 
 router.post("", async (req, res) => {
     try{
@@ -51,5 +51,8 @@ router.delete("/:id", async (req, res) => {
         return res.status(500).json({message: e.message, status: "Failed"})
     }
 })
+
+
+
 
 module.exports = router

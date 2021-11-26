@@ -3,10 +3,12 @@ const express = require("express")
 const router = express.Router()
 
 const Checkout = require("../models/checkout.model")
+const Book = require("../models/book.model")
 
 router.post("", async (req, res) => {
     try{
     const checkout = await Checkout.create(req.body)
+  //  const book = await Book.findByIdAndDelete(checkout.book_id)
     res.status(201).send(checkout)
     }catch(e){
         return res.status(500).json({message: e.message, status: "Failed"})
@@ -54,3 +56,5 @@ router.delete("/:id", async (req, res) => {
 })
 
 module.exports = router
+
+

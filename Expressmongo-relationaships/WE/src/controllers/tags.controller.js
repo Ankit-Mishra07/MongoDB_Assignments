@@ -70,7 +70,7 @@ router.get("/:id/posts", async (req, res) => {
     try{
 
         const tag = await Tag.findById(req.params.id).lean().exec()
-        const posts = await Post.find({tag_ids: tag_id}).populate("tag_ids").lean().exec()
+        const posts = await Post.find({tag_ids: tag._id}).populate("tag_ids").lean().exec()
         return res.status(201).send({posts, tag})
 
     }catch(e) {
