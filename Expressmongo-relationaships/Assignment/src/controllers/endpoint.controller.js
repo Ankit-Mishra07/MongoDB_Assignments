@@ -46,8 +46,23 @@ router.get("/section/:id/booksnot", async(req, res) => {
 
         const section = await Section.findById(req.params.id).lean().exec()
         const books  = await Book.find({section_id: section._id}).lean().exec()
-        const notchecked = await books.filter((boo)=> {boo._id == (Checkout.find()).book_id})
-        res.send({notchecked})
+        const checked = await Checkout.find({}).lean().exec()
+        let arr = []
+     
+
+            for(let i = 0; i < books.length; i++) {
+               let flag = true
+                for(let j = 0; j < checked.length; j++){
+                    if(books[i]._id !== checked[j].book_id){
+                        flag = false
+                        break;
+                    }
+                }
+                if(flag === true) {
+                arr.push(books[i])
+                }
+            }
+        res.send(arr)
 
     }catch(e){
         return res.status(500).json({message: e.message, status: "Failed"})
