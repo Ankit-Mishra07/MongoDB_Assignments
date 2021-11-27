@@ -74,7 +74,20 @@ const getAllWithTwoPopulate = (model, populate1, populate2) => async(req, res)=>
   }
 }
 
+const GetTopper = (model1,model2, populate1, populate2) => async(req, res)=>{
+    try{
 
+        const items = await model1.findById(req.params.id).lean().exec();
+        const getItems = await model2.find({evaluation_id : items._id}).sort({marks : -1}).limit(1)
+        .populate(populate1)
+        .populate(populate2)
+        .lean().exec()
+        return res.status(201).send(getItems)
+
+    }catch (e) {
+    return res.status(500).json({ message: e.message, status: "Failed" });
+  }
+}
 
 const updateOne = (model) => async (req, res) => {
     try{
@@ -109,5 +122,6 @@ module.exports = {
     getAllWithTwoPopulate,
     getAllWithTwoPopulateEvalId,
     updateOne,
-    deleteOne
+    deleteOne,
+    GetTopper
 }

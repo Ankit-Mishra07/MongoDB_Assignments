@@ -13,5 +13,6 @@ router.get("/:id", crudController.getOneWithTwoPopulate(Evaluation, {path: "inst
 router.get("/:id/students", crudController.getAllWithTwoPopulateEvalId(Evaluation, Student, {path:"user_id", select:"first_name last_name"}, {path: `evaluation_id`}))
 router.patch("/:id", crudController.updateOne(Evaluation));
 router.delete("/:id", crudController.deleteOne(Evaluation));
+router.get("/:id/topper", crudController.GetTopper(Evaluation, Student, {path:"user_id", select:"first_name last_name"}, {path: `evaluation_id`}))
 
 module.exports = router;
