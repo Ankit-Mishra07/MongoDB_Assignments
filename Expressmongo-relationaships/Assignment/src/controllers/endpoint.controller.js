@@ -46,8 +46,8 @@ router.get("/section/:id/booksnot", async(req, res) => {
 
         const section = await Section.findById(req.params.id).lean().exec()
         const books  = await Book.find({section_id: section._id}).lean().exec()
-        const checked = await Checkout.find({}).lean().exec()
-        let arr = []
+        const checked = await Checkout.find().lean().exec()
+            let arr = []
      
 
             for(let i = 0; i < books.length; i++) {
@@ -62,7 +62,7 @@ router.get("/section/:id/booksnot", async(req, res) => {
                 arr.push(books[i])
                 }
             }
-        res.send(arr)
+         res.send(checked)
 
     }catch(e){
         return res.status(500).json({message: e.message, status: "Failed"})
