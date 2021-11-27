@@ -21,7 +21,7 @@ const getAll = (model) => async (req, res) => {
   }
 }
 
-const getOne = (model) => (req, res) => {
+const getOne = (model) => async (req, res) => {
     try{
 
         const item = await model.findById(req.params.id).lean().exec()
