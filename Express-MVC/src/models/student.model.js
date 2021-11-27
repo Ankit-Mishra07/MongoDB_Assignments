@@ -9,7 +9,12 @@ const studentSchema = mongoose.Schema({
         required: true
     },
     result: {
-        type: Number
+        type: String,
+        required: false
+    },
+    marks:{
+        type: Number,
+        required: false
     },
     evaluation_id : {
         type: mongoose.Schema.Types.ObjectId,
