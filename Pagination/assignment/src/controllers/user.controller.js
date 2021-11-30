@@ -11,14 +11,18 @@ router.post("/" , async (req, res) => {
     const admins = await User.find({role: "admin"})
         
     sendMail("ankitmi116@gmail.com", 
-     req.body.email,`Welcome to ABC system ${req.body.first_name}  ${req.body.last_name}`,
+     req.body.email,
+     `Welcome to ABC system ${req.body.first_name}  ${req.body.last_name}`,
     `Hi  ${req.body.first_name}, Please confirm your email address`,
      `<h1>Hi  ${req.body.first_name}, Please confirm your email address</h1>`)
 
     for(let i = 0; i < admins.length; i++) {
 
-        sendMail("ankitmi116@gmail.com", admins[i].email, `${req.body.first_name} ${req.body.last_name} has registered with us`
-        ,  `Please welcome ${req.body.first_name} ${req.body.last_name}`, `<h1>Please welcome ${req.body.first_name} ${req.body.last_name}</h1>`)
+        sendMail("ankitmi116@gmail.com", 
+        admins[i].email,
+         `${req.body.first_name} ${req.body.last_name} has registered with us`,
+         `Please welcome ${req.body.first_name} ${req.body.last_name}`, 
+         `<h1>Please welcome ${req.body.first_name} ${req.body.last_name}</h1>`)
 
     }
 
