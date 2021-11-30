@@ -4,36 +4,24 @@ const router = express.Router();
 
 const User = require("../models/user.model")
 
-const transporter = require("../configs/mails")
-
+const sendMail = require("../utils/send-mail")
 router.post("/" , async (req, res) => {
     try{
     const user = await User.create(req.body)
     const admins = await User.find({role: "admin"})
+        
+    sendMail("ankitmi116@gmail.com", 
+     req.body.email,`Welcome to ABC system ${req.body.first_name}  ${req.body.last_name}`,
+    `Hi  ${req.body.first_name}, Please confirm your email address`,
+     `<h1>Hi  ${req.body.first_name}, Please confirm your email address</h1>`)
 
-    const message = {
-        from: "ankitmi116@gmail.com",
-        to: req.body.email ,
-        subject: `Welcome to ABC system ${req.body.first_name}  ${req.body.last_name}`,
-        text: `Hi  ${req.body.first_name}, Please confirm your email address`,
-        html: `<h1>Hi  ${req.body.first_name}, Please confirm your email address</h1>`
-      };
+    for(let i = 0; i < admins.length; i++) {
 
- 
+        sendMail("ankitmi116@gmail.com", admins[i].email, `${req.body.first_name} ${req.body.last_name} has registered with us`
+        ,  `Please welcome ${req.body.first_name} ${req.body.last_name}`, `<h1>Please welcome ${req.body.first_name} ${req.body.last_name}</h1>`)
 
-    for(let i = 0; i < 5; i++) {
-      
-    const msg_admin = {
-        from: "ankitmi116@gmail.com",
-        to: admins[i].email,
-        subject: `${req.body.first_name} ${req.body.last_name} has registered with us`,
-        text: `Please welcome ${req.body.first_name} ${req.body.last_name}`,
-        html: `<h1>Please welcome ${req.body.first_name} ${req.body.last_name}</h1>`
-      };
-      transporter.sendMail(msg_admin)
     }
 
-      transporter.sendMail(message)
      
 
     res.status(201).send(user)
