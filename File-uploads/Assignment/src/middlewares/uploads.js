@@ -1,5 +1,5 @@
-const path = require("path")
 
+const path = require("path")
 const multer = require("multer")
 
 const storage = multer.diskStorage({
@@ -25,6 +25,6 @@ module.exports = multer({
     storage,
     fileFilter,
     limits : {
-        fileSize: 1024 * 1024 * 5
-    }
+        fileSize: 1024 * 1024 * 15
+    },
 })

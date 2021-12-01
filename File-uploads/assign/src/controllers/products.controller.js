@@ -8,7 +8,6 @@ const upload = require("../middlewares/uploads")
 
 router.post("/", upload.single("image_urls"), async (req, res) => {
     try{
-
         const product = await Product.create({
             name: req.body.name,
             price: req.body.price,
