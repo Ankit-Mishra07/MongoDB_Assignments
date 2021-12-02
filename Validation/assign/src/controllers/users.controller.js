@@ -21,7 +21,12 @@ async (req, res) => {
         const errors = validationResult(req)
 
         if(!errors.isEmpty()) {
-            return res.status(400).json({ data: errors.array() })
+            let newErrors = errors.array().map(({msg, param, location}) => {
+                return {
+                    [param] : msg
+                }
+            })
+            return res.status(400).json({ errors: newErrors })
         }
 
         const user = await User.create(req.body)
