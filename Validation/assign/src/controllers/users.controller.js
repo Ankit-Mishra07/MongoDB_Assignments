@@ -9,7 +9,12 @@ router.post("/",
 body("id").isLength({min: 1}).withMessage("id is required"),
 body("first_name").isLength({min: 1}).withMessage("first name is required"),
 body("last_name").isLength({min: 1}).withMessage("last name is required"),
-body("age").isLength({min:1}).withMessage("age is required"),
+body("age").custom(async (value) => {
+    const isNumber = /^[0-9]*$/.test(value); //true or false
+    if(!isNumber || value > 28) {
+        throw new Error("age should not be greater than 28")
+    }
+}),
 body("email").custom(async (value) => {
     const isEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,20}$/.test(value);
     const listOfDomain = ["gmail.com", "yahoo.com"];
