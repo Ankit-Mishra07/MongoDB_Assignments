@@ -25,4 +25,18 @@ router.post("/", authenticate, async (req, res) => {
 
 })
 
+router.get("/", authenticate, async (req, res) => {
+    try {
+
+        const post = await Post.find({})
+        res.send(post)
+        
+
+
+
+    }catch(e) {
+    return res.status(500).json({ status: "Failed", message: e.message });
+    }
+})
+
 module.exports = router;
