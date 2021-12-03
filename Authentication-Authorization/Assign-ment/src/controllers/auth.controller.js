@@ -30,7 +30,37 @@ const register = async (req, res) => {
     }
 }
 
+const login = async (req, res) => {
+    try {
+
+        let user = await User.findOne({email : req.body.email});
+
+        if(!user) {
+            return res.status(400).json({
+                status: "Failed",
+                message: "Please provide correct email and password"
+            })
+        }
+
+        const match = await user.checkPassword(req.body.password)
+
+        if(!match) {
+            return res.status(400).json({
+                status: "Failed",
+                message: "Please provide valid email and password"
+            })
+        }
+
+        const token = newToken(user)
+
+        res.status(201).json({user, token})
+
+    }catch(e) {
+        return res.status(500).json({message: e.message, status: "Failed"})
+    }
+}
 
 module.exports = {
-    register
+    register,
+    login
 }
