@@ -19,4 +19,14 @@ userSchema.pre("save", function (next) {
     return next()
 })
 
+userSchema.methods.checkPassword = function(password) {
+    return new Promise ((resolve, reject) => {
+        bcrypt.compare(this.password, password, function(err, same) {
+            if(err) {return reject(err)}
+
+            return resolve(same)
+        })
+    })
+}
+
 module.exports = mongoose.model("user", userSchema)
