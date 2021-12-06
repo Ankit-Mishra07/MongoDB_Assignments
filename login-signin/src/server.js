@@ -6,6 +6,11 @@ const app = express()
 
 app.use(express.json())
 
+
+const {signup, signin} = require("./controllers/auth.controller")
+
+app.post("/signup", signup)
+
 const connect = () => {
     return mongoose.connect("mongodb://localhost:27017/form")
 }
