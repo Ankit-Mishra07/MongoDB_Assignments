@@ -10,3 +10,4 @@ const {register, login} = require("./controllers/auth.controller")
 
 app.post("/register", register)
 app.post("/login", login)
+
