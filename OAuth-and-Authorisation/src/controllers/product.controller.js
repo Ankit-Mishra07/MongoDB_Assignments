@@ -61,4 +61,13 @@ router.delete("/:id", authenticate, authorise(["admin", "seller"]), async (req, 
 
 })
 
+router.get("/", async (req, res) => {
+    try {
+        const product = await Product.find({}).populate("user").lean().exec()
+        return res.status(201).json({product})
+    }catch(e) {
+        return res.status(500).json({ status: "failed", message: e.message });
+    }
+})
+
 module.exports = router
