@@ -4,7 +4,11 @@ const router = express.Router();
 
 const Product = require("../models/product.model")
 
-router.post("/", async (req, res) => {
+const authorise = require("../middlewares/authorise")
+
+const authenticate = require("../middlewares/authenticate")
+
+router.post("/", authenticate, authorise(["admin", "seller"]), async (req, res) => {
 
     try{
 
@@ -14,13 +18,33 @@ router.post("/", async (req, res) => {
             name : req.body.name,
             price : req.body.price,
             user : user.user._id
-        }).populate("user")
+        })
 
         res.status(201).json({product})
 
     }catch(e) {
-        
+    return res.status(500).json({ status: "failed", message: e.message });
     }
 })
+
+router.patch("/:id", authenticate, authorise(["admin", "seller"]), async (req, res) => {
+
+
+    try {
+        const user = req.user
+
+        const product = await Product.findByIdAndUpdate(req.params.id , {
+            name : req.body.name,
+            price : req.body.price,
+            user : user.user._id
+        }, {new : true})
+        res.status(201).json({product})
+
+    }catch(e) {
+      return res.status(500).json({ status: "failed", message: e.message });
+    }
+
+})
+
 
 module.exports = router
