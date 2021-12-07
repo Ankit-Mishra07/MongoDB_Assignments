@@ -46,5 +46,19 @@ router.patch("/:id", authenticate, authorise(["admin", "seller"]), async (req, r
 
 })
 
+router.delete("/:id", authenticate, authorise(["admin", "seller"]), async (req, res) => {
+
+    try{
+
+        const user = req.user
+        const product = await Product.findByIdAndDelete(req.params.id)
+
+        return res.status(201).json({product})
+
+    }catch(e) {
+      return res.status(500).json({ status: "failed", message: e.message });
+    }
+
+})
 
 module.exports = router
